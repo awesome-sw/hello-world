@@ -1,20 +1,20 @@
 'use strict';
 
-window.addEventListener('install', event => {
+self.addEventListener('install', event => {
   console.log('service worker - install');
-  // function onInstall () {
-  //   return caches.open('static')
-  //     .then(cache =>
-  //       cache.addAll([
-  //         '/hello.js',
-  //         '/'
-  //       ])
-  //     );
-  // }
+  function onInstall () {
+    return caches.open('static')
+      .then(cache =>
+        cache.addAll([
+          'hello.js',
+          'index.html'
+        ])
+      );
+  }
 
-  // event.waitUntil(onInstall(event));
+  event.waitUntil(onInstall(event));
 });
 
-window.addEventListener('activate', event => {
+self.addEventListener('activate', event => {
   console.log('service worker - activate');
 });
