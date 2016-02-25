@@ -1,0 +1,98 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+
+  <style type="text/css">
+
+    #grid {
+      width: 150px;
+    }
+
+    .grid-element {
+      width: 50px;
+      height: 50px;
+      float: left;
+    }
+
+    button {
+      width: 50px;
+    }
+
+  </style>
+
+  <script type="text/javascript">
+
+  function sendNotification(payload) {
+
+    var params = {};
+    for (var el of location.search.slice(1).split('&')) {
+      var sp = el.split('=');
+      params[sp[0]] = sp[1];
+    }
+
+    var endpoint = decodeURIComponent(params["endpoint"]);
+    var key = decodeURIComponent(params["key"]);
+
+    var body = {
+      endpoint: endpoint,
+      key: key,
+      payload: payload,
+      delay: "0",
+      ttl: "0"
+    }
+
+    fetch("https://serviceworke.rs/push-payload/sendNotification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    }).then(e => console.log(e));
+  }
+
+  </script>
+</head>
+<body>
+
+  <div id="grid">
+    <div class="grid-element">
+    </div>
+
+    <div class="grid-element">
+      <button onclick="sendNotification('navigate-up')">Up</button>
+    </div>
+
+    <div class="grid-element">
+    </div>
+
+    <div class="grid-element">
+      <button onclick="sendNotification('navigate-left')">Left</button>
+    </div>
+
+    <div class="grid-element">
+    </div>
+
+    <div class="grid-element">
+      <button onclick="sendNotification('navigate-right')">Right</button>
+    </div>
+
+
+    <div class="grid-element">
+    </div>
+
+    <div class="grid-element">
+      <button onclick="sendNotification('navigate-down')">Down</button>
+    </div>
+
+    <div class="grid-element">
+    </div>
+
+  </div>
+
+  <div>
+    <button onclick="sendNotification('notify:hello')">Notify</button>
+  </div>
+
+</body>
+</html>
