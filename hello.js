@@ -17,17 +17,22 @@ if ('serviceWorker' in navigator) {
   let subscription = register.then(function(registration) {
     console.log('ServiceWorker registration successful with scope: ', registration.scope);
 
-    return registration.pushManager.getSubscription()
-    .then(function(subscription) {
-      // If a subscription was found, return it.
-      if (subscription) {
-        return subscription;
-      }
+    if (!window.chrome)
+      return registration.pushManager.getSubscription()
+      .then(function(subscription) {
+        // If a subscription was found, return it.
+        if (subscription) {
+          return subscription;
+        }
 
-      // Otherwise, subscribe the user
-    return registration.pushManager.subscribe({ userVisibleOnly: false });
-    });
+        // Otherwise, subscribe the user
+        return registration.pushManager.subscribe({ userVisibleOnly: false });
+      });
+    else
+      return undefined;
   }).then(function(subscription) {
+    if (!subscription)
+      return;
     // This is the URL of the endpoint we need to call to get a notification
     console.log(subscription.endpoint);
 
