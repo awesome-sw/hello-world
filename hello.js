@@ -6,7 +6,9 @@ if ('serviceWorker' in navigator) {
 
   if (window.location.hostname != 'localhost' && window.location.protocol == 'http:') {
     // If we're on github, make sure we're on https
-    window.location.protocol = 'https:';
+    var url = new URL(window.location.href);
+    url.protocol = "https:";
+    window.location = url;
   }
 
   let register = navigator.serviceWorker.register('serviceWorker.js');
